@@ -1,0 +1,26 @@
+{
+    "NodeStackStyle": {
+        "NodesNameWidth": true,
+        "NodesExtraWidth": 10,
+        "NodesExtraHeight": 10,
+        "NodesLineWidth": 10,
+        "NodesHorizontalSpacing": 10,
+        "NodesVerticalSpacing": 10,
+        "NodeStackPadding": 10
+    },
+    "NodeLayoutDataOrder": "F[FF]",
+    "NodeLayoutDataArray": [
+        {
+            "id": 0,
+            "name": "RootNode"
+        },
+        {
+            "id": 999,
+            "name": "SubNode"
+        },
+        {
+            "id": 999,
+            "name": "SubNode"
+        }
+    ]
+}

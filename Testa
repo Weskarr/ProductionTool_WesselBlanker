@@ -1,0 +1,18 @@
+{
+    "NodeStackStyle": {
+        "NodesNameWidth": true,
+        "NodesExtraWidth": 10,
+        "NodesExtraHeight": 10,
+        "NodesLineWidth": 10,
+        "NodesHorizontalSpacing": 10,
+        "NodesVerticalSpacing": 10,
+        "NodeStackPadding": 10
+    },
+    "NodeLayoutDataOrder": "F",
+    "NodeLayoutDataArray": [
+        {
+            "id": 0,
+            "name": "RootNode"
+        }
+    ]
+}

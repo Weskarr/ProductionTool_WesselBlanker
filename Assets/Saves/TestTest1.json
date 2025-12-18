@@ -1,0 +1,30 @@
+{
+    "NodeStackStyle": {
+        "NodesNameWidth": true,
+        "NodesExtraWidth": 15,
+        "NodesExtraHeight": 14,
+        "NodesLineWidth": 16,
+        "NodesHorizontalSpacing": 16,
+        "NodesVerticalSpacing": 15,
+        "NodeStackPadding": 16
+    },
+    "NodeLayoutDataOrder": "F[FFF]",
+    "NodeLayoutDataArray": [
+        {
+            "id": 0,
+            "name": "A_Test_A"
+        },
+        {
+            "id": 1,
+            "name": "B"
+        },
+        {
+            "id": 1,
+            "name": "B"
+        },
+        {
+            "id": 1,
+            "name": "B"
+        }
+    ]
+}
