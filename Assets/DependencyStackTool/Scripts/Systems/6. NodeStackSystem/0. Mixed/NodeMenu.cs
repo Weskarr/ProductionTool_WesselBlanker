@@ -102,7 +102,7 @@ public class NodeMenu : MonoBehaviour
         SetNodeTypedText(_currentNode.LayoutNodeData.name);
         _insideRectTransform.gameObject.SetActive(true);
         StartListeningToInputHandler();
-        _nodeTextInputBox.FocusTriggered();
+        _nodeTextInputBox.FocusEnabler();
     }
 
     public void CloseNodeMenuTrigger()

@@ -18,7 +18,8 @@ public class TextInputBox : MonoBehaviour
     [SerializeField] private float _caretBlinkDelay = 0.5f;
     [SerializeField] private float _caretToTextOffset = 20f;
     [SerializeField] private string _emptyText = "SaveName..";
-    [SerializeField] private bool _focusOnEnable = true;
+    [SerializeField] private bool _isFocussedOnEnable = true;
+    [SerializeField] private bool _isSpaceAllowed = true;
 
     [Header("Outside Checking")]
     [SerializeField] private RectTransform _insideRectTransform;
@@ -37,8 +38,8 @@ public class TextInputBox : MonoBehaviour
     private string _typedText = "";
 
     // States
-    private bool _isTyping = false;
-    private bool _isBlinking = false;
+    [SerializeField] private bool _isTyping = false;
+    [SerializeField] private bool _isBlinking = false;
 
     // Input Handler
     private InputHandler _inputHandler => InputHandler.Instance;
@@ -68,12 +69,7 @@ public class TextInputBox : MonoBehaviour
 
     private void OnEnable()
     {
-        RegisterInputHandlerRelated();
-
-        if(_focusOnEnable)
-            FocusTriggered();
-        else
-            UnfocusTriggered();
+        FocusEnabler();
     }
 
     private void RegisterInputHandlerRelated()
@@ -94,7 +90,7 @@ public class TextInputBox : MonoBehaviour
 
     private void OnDisable()
     {
-        UnregisterInputHandlerRelated();
+        UnfocusTriggered();
     }
 
     private void UnregisterInputHandlerRelated()
@@ -113,10 +109,17 @@ public class TextInputBox : MonoBehaviour
 
     #region Focus Functions
 
+    public void FocusEnabler()
+    {
+        if (_isFocussedOnEnable)
+            FocusTriggered();
+        else
+            UnfocusTriggered();
+    }
+
     public void FocusTriggered()
     {
-        if (_isRegistered)
-            return;
+        Debug.Log("FocusTriggered");
 
         RegisterInputHandlerRelated();
         UpdateCaretPosition();
@@ -133,8 +136,7 @@ public class TextInputBox : MonoBehaviour
 
     private void UnfocusTriggered()
     {
-        if (!_isRegistered)
-            return;
+        Debug.Log("UnfocusTriggered");
 
         UnregisterInputHandlerRelated();
         StopAllCoroutines();
@@ -178,18 +180,30 @@ public class TextInputBox : MonoBehaviour
         {
             UnfocusTriggered();
         }
-        else if (char.IsControl(inputChar) || inputChar == ' ') // Ignore all other control characters (Escape, Tab, etc.)
+        else if (char.IsControl(inputChar)) // Ignore all other control characters (Escape, Tab, etc.)
         {
             // Do nothing
         }
+        else if (inputChar == ' ')
+        {
+            if (_isSpaceAllowed)
+                AllowedCharacter(inputChar);
+
+            // Else do nothing
+        }
         else // Normal printable character
         {
-            if (_typedText.Length < _maxChars)
-            {
-                _typedText += inputChar;
-                ShowTypedText();
-                TypedTriggered();
-            }
+            AllowedCharacter(inputChar);
+        }
+    }
+
+    private void AllowedCharacter(char inputChar)
+    {
+        if (_typedText.Length < _maxChars)
+        {
+            _typedText += inputChar;
+            ShowTypedText();
+            TypedTriggered();
         }
     }
 

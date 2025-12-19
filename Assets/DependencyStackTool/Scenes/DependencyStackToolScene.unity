@@ -4826,11 +4826,14 @@ MonoBehaviour:
   _caretBlinkDelay: 0.5
   _caretToTextOffset: 20
   _emptyText: SaveName..
-  _focusOnEnable: 0
+  _isFocussedOnEnable: 0
+  _isSpaceAllowed: 0
   _insideRectTransform: {fileID: 380345378}
   _caretRectTransform: {fileID: 756286357}
   _outputText: {fileID: 284216454}
   _focusButton: {fileID: 203064102}
+  _isTyping: 0
+  _isBlinking: 0
 --- !u!1 &381007973
 GameObject:
   m_ObjectHideFlags: 0
@@ -6949,11 +6952,14 @@ MonoBehaviour:
   _caretBlinkDelay: 0.5
   _caretToTextOffset: 20
   _emptyText: SaveName..
-  _focusOnEnable: 1
+  _isFocussedOnEnable: 1
+  _isSpaceAllowed: 1
   _insideRectTransform: {fileID: 541265482}
   _caretRectTransform: {fileID: 1399534553}
   _outputText: {fileID: 903063568}
   _focusButton: {fileID: 1994674284}
+  _isTyping: 0
+  _isBlinking: 0
 --- !u!1 &557168252
 GameObject:
   m_ObjectHideFlags: 0
@@ -19820,8 +19826,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NodeTextInputBox, Assembly-CSharp
+      - m_Target: {fileID: 541265484}
+        m_TargetAssemblyTypeName: TextInputBox, Assembly-CSharp
         m_MethodName: FocusTriggered
         m_Mode: 1
         m_Arguments:
