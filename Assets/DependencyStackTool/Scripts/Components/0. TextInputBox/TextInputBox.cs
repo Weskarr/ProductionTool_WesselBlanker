@@ -82,6 +82,8 @@ public class TextInputBox : MonoBehaviour
         // Safely register input handler related things.
         _inputHandler.OnCharTyped += CharTypedResult;
         _inputHandler.OnAnyMouseStarted += OutsideCheck;
+        _inputHandler.OnBackspaceStarted += RemoveLastCharacter;
+        _inputHandler.OnDeleteStarted += RemoveAllCharacters;
     }
 
     #endregion
@@ -103,6 +105,8 @@ public class TextInputBox : MonoBehaviour
         // Safely unregister input handler related things.
         _inputHandler.OnCharTyped -= CharTypedResult;
         _inputHandler.OnAnyMouseStarted -= OutsideCheck;
+        _inputHandler.OnBackspaceStarted -= RemoveLastCharacter;
+        _inputHandler.OnDeleteStarted -= RemoveAllCharacters;
     }
 
     #endregion
@@ -161,22 +165,7 @@ public class TextInputBox : MonoBehaviour
 
     private void HandleTyping(char inputChar)
     {
-        if (inputChar == '\b') // Backspace
-        {
-            if (_typedText.Length > 0)
-            {
-                _typedText = _typedText.Substring(0, _typedText.Length - 1);
-                ShowTypedText();
-                TypedTriggered();
-            }
-        }
-        else if (inputChar == '\u007F') // Delete
-        {
-            _typedText = "";
-            ShowTypedText();
-            TypedTriggered();
-        }
-        else if (inputChar == '\n' || inputChar == '\r') // Enter / Return
+        if (inputChar == '\n' || inputChar == '\r') // Enter / Return
         {
             UnfocusTriggered();
         }
@@ -194,6 +183,26 @@ public class TextInputBox : MonoBehaviour
         else // Normal printable character
         {
             AllowedCharacter(inputChar);
+        }
+    }
+
+    private void RemoveLastCharacter()
+    {
+        if (_typedText.Length > 0)
+        {
+            _typedText = _typedText.Substring(0, _typedText.Length - 1);
+            ShowTypedText();
+            TypedTriggered();
+        }
+    }
+    
+    private void RemoveAllCharacters()
+    {
+        if (_typedText.Length > 0)
+        {
+            _typedText = "";
+            ShowTypedText();
+            TypedTriggered();
         }
     }
 
