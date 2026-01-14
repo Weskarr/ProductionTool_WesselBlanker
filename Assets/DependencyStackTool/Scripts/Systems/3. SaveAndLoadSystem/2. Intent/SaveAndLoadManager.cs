@@ -16,11 +16,16 @@ namespace SaveAndLoadSystem
         [Header("UI Input")]
         [SerializeField] private SaveAndLoadTab _saveAndLoadTab;
 
-        [Header("SubSystems")]
+        [Header("Subsystems")]
         [SerializeField] private SaveReloader _saveReloader;
         [SerializeField] private SaveCreator _saveCreator;
         [SerializeField] private SaveLoader _saveLoader;
         [SerializeField] private SaveDeleter _saveDeleter;
+
+        [Header("Subsystems For WebGL")]
+        [SerializeField] private SaveDirectSaver _saveDirectSaver;
+        [SerializeField] private SaveDirectLoader _saveDirectLoader;
+        [SerializeField] private SaveDirectReset _saveDirectReset;
 
 
         // ----------------- Functions -----------------
@@ -47,6 +52,16 @@ namespace SaveAndLoadSystem
             _saveAndLoadTab.OnLoadTriggeredRelay -= context => HandleLoadTriggered(context);
             _saveAndLoadTab.OnDeleteTriggeredRelay -= context => HandleDeleteTriggered(context);
         }
+
+        #endregion
+
+        #region Handle IsWebGL Functions
+
+        public void HandleDirectSaveFinalRelay() => _saveDirectSaver.CreateSave(_nodeStackManager);
+
+        public void HandleDirectLoadFinalRelay() => _saveDirectLoader.RequestLoad();
+
+        public void HandleDirectResetFinalRelay() => _saveDirectReset.ResetSave();
 
         #endregion
 

@@ -23,12 +23,20 @@ public class TabBarManager : MonoBehaviour
 
     private void OnEnable()
     {
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            _toolbarVisual.ActivateTabBarWithButtonsForWebGL(true);
+        #else
+            _toolbarVisual.ActivateTabBarWithButtonsForDesktop(true);
+        #endif
+
         _toolbarVisual.OnHelpTriggered += HandleHelp;
         _toolbarVisual.OnPreferencesTriggered += HandlePreferences;
         _toolbarVisual.OnStylisationTriggered += HandleStylisation;
         _toolbarVisual.OnSaveAndLoadTriggered += HandleSaveAndLoad;
-        _toolbarVisual.OnExportTriggered += HandleExport;
         _toolbarVisual.OnQuitTriggered += HandleQuit;
+        _toolbarVisual.OnDirectSaveTriggered += HandleDirectSaveRelay;
+        _toolbarVisual.OnDirectLoadTriggered += HandleDirectLoadRelay;
+        _toolbarVisual.OnDirectResetTriggered += HandleDirectResetRelay;
     }
 
     #endregion
@@ -37,13 +45,31 @@ public class TabBarManager : MonoBehaviour
 
     private void OnDisable()
     {
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            _toolbarVisual.ActivateTabBarWithButtonsForWebGL(false);
+        #else
+            _toolbarVisual.ActivateTabBarWithButtonsForDesktop(false);
+        #endif
+
         _toolbarVisual.OnHelpTriggered -= HandleHelp;
         _toolbarVisual.OnPreferencesTriggered -= HandlePreferences;
         _toolbarVisual.OnStylisationTriggered -= HandleStylisation;
         _toolbarVisual.OnSaveAndLoadTriggered -= HandleSaveAndLoad;
-        _toolbarVisual.OnExportTriggered -= HandleExport;
         _toolbarVisual.OnQuitTriggered -= HandleQuit;
+        _toolbarVisual.OnDirectSaveTriggered -= HandleDirectSaveRelay;
+        _toolbarVisual.OnDirectLoadTriggered -= HandleDirectLoadRelay;
+        _toolbarVisual.OnDirectResetTriggered -= HandleDirectResetRelay;
     }
+
+    #endregion
+
+    #region IsWebGL Handle Relay Functions
+
+    private void HandleDirectSaveRelay() => _saveAndLoadManager.HandleDirectSaveFinalRelay();
+
+    private void HandleDirectLoadRelay() => _saveAndLoadManager.HandleDirectLoadFinalRelay();
+
+    private void HandleDirectResetRelay() => _saveAndLoadManager.HandleDirectResetFinalRelay();
 
     #endregion
 
@@ -93,12 +119,6 @@ public class TabBarManager : MonoBehaviour
         bool previousState = _saveAndLoadManager.GetTabStateRelay();
         CloseAllTabs();
         _saveAndLoadManager.ToggleTabRelay(!previousState);
-    }
-
-    private void HandleExport()
-    {
-        //Debug.Log("Export action triggered.");
-        // Implement export functionality here
     }
 
     private void HandleQuit()

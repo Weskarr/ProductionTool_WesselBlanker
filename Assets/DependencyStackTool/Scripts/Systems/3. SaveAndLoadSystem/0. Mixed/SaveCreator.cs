@@ -49,7 +49,7 @@ namespace SaveAndLoadSystem
 
         private void BroadcastResult(bool isCreated, string saveFileName)
         {
-            if (true)
+            if (isCreated)
                 OnSaveCreated?.Invoke(saveFileName);
         }
 
@@ -58,9 +58,9 @@ namespace SaveAndLoadSystem
             string dataJson = JsonUtility.ToJson(nodeStackData, true);
             File.WriteAllText(savePath, dataJson);
 
-#if UNITY_EDITOR
-            UnityEditor.AssetDatabase.Refresh();
-#endif
+            #if UNITY_EDITOR
+                UnityEditor.AssetDatabase.Refresh();
+            #endif
         }
 
         private string TryMakeSaveFilePath(string saveFileName)

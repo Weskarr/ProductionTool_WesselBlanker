@@ -11,6 +11,8 @@ public class StylisationManager : MonoBehaviour
     // Bad: ToolMaster -> Here
     [Header("Other Managers")]
     [SerializeField] private SaveLoader _saveLoader;
+    [SerializeField] private SaveDirectLoader _saveDirectLoader;
+    [SerializeField] private SaveDirectReset _saveDirectReset;
     [SerializeField] private NodeStackManager _nodeStackManager;
 
     [Header("UI Input")]
@@ -28,6 +30,8 @@ public class StylisationManager : MonoBehaviour
     private void OnEnable()
     {
         _saveLoader.OnSaveLoadedSuccesfully += context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
+        _saveDirectLoader.OnSaveLoadedSuccesfully += context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
+        _saveDirectReset.OnSaveReset += context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
         _stylisationTab.OnCloseTabTriggered += HandleCloseTabTriggered;
         _stylisationTab.OnNodesNameWidthChanged += HandleNodesNameWidthChanged;
         _stylisationTab.OnNodesExtraWidthChanged += HandleNodesExtraWidthChanged;
@@ -44,6 +48,9 @@ public class StylisationManager : MonoBehaviour
 
     private void OnDisable()
     {
+        _saveLoader.OnSaveLoadedSuccesfully -= context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
+        _saveDirectLoader.OnSaveLoadedSuccesfully -= context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
+        _saveDirectReset.OnSaveReset -= context => HandleResyncVisualsWithDataRelay(context.NodeStackStyle);
         _stylisationTab.OnCloseTabTriggered -= HandleCloseTabTriggered;
         _stylisationTab.OnNodesNameWidthChanged -= HandleNodesNameWidthChanged;
         _stylisationTab.OnNodesExtraWidthChanged -= HandleNodesExtraWidthChanged;
@@ -60,7 +67,11 @@ public class StylisationManager : MonoBehaviour
 
     public void ToggleTabRelay(bool direction) => _stylisationTab.ToggleTab(direction);
     public bool GetTabStateRelay() => _stylisationTab.GetTabState();
-    private void HandleResyncVisualsWithDataRelay(NodeStackStyleData style) => _stylisationTab.SetVisualsWithData(style);
+    private void HandleResyncVisualsWithDataRelay(NodeStackStyleData style)
+    {
+        Debug.Log("Passage One");
+        _stylisationTab.SetVisualsWithData(style);
+    } 
 
     #endregion
 

@@ -50,6 +50,9 @@ public class StylisationTab : MonoBehaviour
 
     public void SetVisualsWithData(NodeStackStyleData style)
     {
+        Debug.Log("Passage Two");
+        Debug.Log($"Toggle Was: {_nodesNameWidthToggle.isOn}");
+        Debug.Log($"Toggle Needs: {style.NodesNameWidth}");
         _nodesNameWidthToggle.SetIsOnWithoutNotify(style.NodesNameWidth);
         _NodesExtraWidthSlider.SetValueWithoutNotify(style.NodesExtraWidth);
         _NodesExtraHeightSlider.SetValueWithoutNotify(style.NodesExtraHeight);
@@ -57,6 +60,7 @@ public class StylisationTab : MonoBehaviour
         _NodesHorizontalSpacingSlider.SetValueWithoutNotify(style.NodesHorizontalSpacing);
         _NodesVerticalSpacingSlider.SetValueWithoutNotify(style.NodesVerticalSpacing);
         _NodeStackPaddingSlider.SetValueWithoutNotify(style.NodeStackPadding);
+        Debug.Log($"Toggle Became: {_nodesNameWidthToggle.isOn}");
     }
 
 

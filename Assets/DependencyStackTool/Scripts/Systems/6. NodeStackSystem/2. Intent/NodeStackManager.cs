@@ -10,6 +10,8 @@ namespace NodeStackSystem
         // Bad: ToolMaster -> Here
         [Header("Other Managers")]
         [SerializeField] private SaveLoader _saveLoader;
+        [SerializeField] private SaveDirectLoader _saveDirectLoader;
+        [SerializeField] private SaveDirectReset _saveDirectReset;
         [SerializeField] private StylisationManager _stylisationManager;
 
         [Header("Subsystems")]
@@ -51,6 +53,8 @@ namespace NodeStackSystem
         private void OnEnable()
         {
             _saveLoader.OnSaveLoadedSuccesfully += context => LoadNodeStack(context);
+            _saveDirectLoader.OnSaveLoadedSuccesfully += context => LoadNodeStack(context);
+            _saveDirectReset.OnSaveReset += context => LoadNodeStack(context);
             _stylisationManager.OnNodeStackStyleChange += GenerateNodeStackVisualsRelay;
             _nodeStackEditor.OnNodeStackLayoutEdited += GenerateNodeStackVisualsRelay;
 
@@ -64,6 +68,8 @@ namespace NodeStackSystem
         private void OnDisable()
         {
             _saveLoader.OnSaveLoadedSuccesfully -= context => LoadNodeStack(context);
+            _saveDirectLoader.OnSaveLoadedSuccesfully -= context => LoadNodeStack(context);
+            _saveDirectReset.OnSaveReset -= context => LoadNodeStack(context);
             _stylisationManager.OnNodeStackStyleChange -= GenerateNodeStackVisualsRelay;
             _nodeStackEditor.OnNodeStackLayoutEdited -= GenerateNodeStackVisualsRelay;
         }

@@ -41,7 +41,6 @@ public class FilePathHandler : MonoBehaviour
     private void Awake()
     {
         Singleton();
-
     }
 
     private void Singleton()
@@ -64,9 +63,11 @@ public class FilePathHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        SetupBaseFolder();
-        _savesFolderPath = SetupFolder(_savesFolderName);
-        //_exportsFolderPath = SetupFolder(_exportsFolderName);
+        #if !UNITY_WEBGL
+            SetupBaseFolder();
+            _savesFolderPath = SetupFolder(_savesFolderName);
+            //_exportsFolderPath = SetupFolder(_exportsFolderName);
+        #endif
     }
 
     private void SetupBaseFolder()
