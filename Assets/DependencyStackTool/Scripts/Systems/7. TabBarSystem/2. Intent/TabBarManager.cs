@@ -6,6 +6,9 @@ using SaveAndLoadSystem;
 public class TabBarManager : MonoBehaviour
 {
     // Bad: ToolMaster -> Here
+    [SerializeField] private MovementController _movementController;
+
+    // Bad: ToolMaster -> Here
     [Header("Other Managers")]
     [SerializeField] private HelpManager _helpManager;
     [SerializeField] private PreferencesManager _preferencesManager;
@@ -37,6 +40,7 @@ public class TabBarManager : MonoBehaviour
         _toolbarVisual.OnDirectSaveTriggered += HandleDirectSaveRelay;
         _toolbarVisual.OnDirectLoadTriggered += HandleDirectLoadRelay;
         _toolbarVisual.OnDirectResetTriggered += HandleDirectResetRelay;
+        _toolbarVisual.OnAnyTabClosed += HandleOnAnyTabClosed;
     }
 
     #endregion
@@ -59,6 +63,7 @@ public class TabBarManager : MonoBehaviour
         _toolbarVisual.OnDirectSaveTriggered -= HandleDirectSaveRelay;
         _toolbarVisual.OnDirectLoadTriggered -= HandleDirectLoadRelay;
         _toolbarVisual.OnDirectResetTriggered -= HandleDirectResetRelay;
+        _toolbarVisual.OnAnyTabClosed -= HandleOnAnyTabClosed;
     }
 
     #endregion
@@ -95,7 +100,6 @@ public class TabBarManager : MonoBehaviour
         bool previousState = _preferencesManager.GetTabStateRelay();
         CloseAllTabs();
         _preferencesManager.ToggleTabRelay(!previousState);
-
     }
 
     private void HandleStylisation()
@@ -107,7 +111,6 @@ public class TabBarManager : MonoBehaviour
         bool previousState = _stylisationManager.GetTabStateRelay();
         CloseAllTabs();
         _stylisationManager.ToggleTabRelay(!previousState);
-
     }
 
     private void HandleSaveAndLoad()
@@ -135,6 +138,13 @@ public class TabBarManager : MonoBehaviour
         _preferencesManager.ToggleTabRelay(false);
         _stylisationManager.ToggleTabRelay(false);
         _saveAndLoadManager.ToggleTabRelay(false);
+
+        _movementController.enabled = false;
+    }
+
+    private void HandleOnAnyTabClosed()
+    {
+        _movementController.enabled = true;
     }
 
     #endregion

@@ -1,15 +1,20 @@
 
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class TabBar : MonoBehaviour
 {
     // References
-    public RectTransform _tabsRectTransform;
+    public RectTransform _tabButtonsRectTransform;
+    public RectTransform _tabsParent;
 
     // Tabs Availability
     public GameObject[] _tabButtonsToActive_ForDesktop;
     public GameObject[] _tabButtonsToActive_ForWebGL;
+
+    // Events for Manager
+    public event Action OnAnyTabClosed;
 
     // Events
     public event Action OnHelpTriggered;
@@ -35,12 +40,30 @@ public class TabBar : MonoBehaviour
 
     private void ActivateGameobjectArray(GameObject[] array, bool active)
     {
-        if (_tabsRectTransform != null)
-            _tabsRectTransform.gameObject.SetActive(active);
+        if (_tabButtonsRectTransform != null)
+            _tabButtonsRectTransform.gameObject.SetActive(active);
         
         foreach (GameObject item in array)
             item.SetActive(active);
     }
+
+    private void OnEnable()
+    {
+        foreach(Transform tab in _tabsParent)
+        {
+            tab.GetComponent<ITab>().OnCloseTabTriggered += OnCloseTabTriggered;
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (Transform tab in _tabsParent)
+        {
+            tab.GetComponent<ITab>().OnCloseTabTriggered -= OnCloseTabTriggered;
+        }
+    }
+
+    private void OnCloseTabTriggered() => OnAnyTabClosed?.Invoke();
 
     #endregion
 

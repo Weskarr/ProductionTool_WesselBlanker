@@ -83,6 +83,7 @@ public class InputHandler : MonoBehaviour
     public event Action OnRightArrowStarted;
     public event Action OnUpArrowStarted;
     public event Action OnDownArrowStarted;
+    public event Action OnScrollWheelStarted;
 
     // Actions (on Canceled)
     public event Action OnLeftMouseCanceled;
@@ -174,6 +175,7 @@ public class InputHandler : MonoBehaviour
         _onRightArrowInput.started += context => OnRightArrowStarted?.Invoke();
         _onUpArrowInput.started += context => OnUpArrowStarted?.Invoke();
         _onDownArrowInput.started += context => OnDownArrowStarted?.Invoke();
+        _onScrollWheelDeltaInput.started += context => OnScrollWheelStarted?.Invoke();
 
         _onLeftMouseInput.canceled += context => OnLeftMouseCanceled?.Invoke();
         _onRightMouseInput.canceled += context => OnRightMouseCanceled?.Invoke();
@@ -194,6 +196,7 @@ public class InputHandler : MonoBehaviour
         _onLeftMouseInput.started += context => OnAnyMouseStarted?.Invoke();
         _onRightMouseInput.started += context => OnAnyMouseStarted?.Invoke();
         _onMiddleMouseInput.started += context => OnAnyMouseStarted?.Invoke();
+        //_onScrollWheelDeltaInput.started += context => OnAnyMouseStarted?.Invoke();
 
         // Expand Invokes..
     }

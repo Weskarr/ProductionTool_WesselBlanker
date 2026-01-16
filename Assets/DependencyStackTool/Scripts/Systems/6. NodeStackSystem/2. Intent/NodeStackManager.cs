@@ -38,23 +38,13 @@ namespace NodeStackSystem
 
         #endregion
 
-        // Move this to master system at some point!
-        #region Start Functions
-
-        private void Start()
-        {
-
-        }
-
-        #endregion
-
         #region OnEnable Functions
 
         private void OnEnable()
         {
-            _saveLoader.OnSaveLoadedSuccesfully += context => LoadNodeStack(context);
-            _saveDirectLoader.OnSaveLoadedSuccesfully += context => LoadNodeStack(context);
-            _saveDirectReset.OnSaveReset += context => LoadNodeStack(context);
+            _saveLoader.OnSaveLoadedSuccesfully += LoadNodeStack;
+            _saveDirectLoader.OnSaveLoadedSuccesfully += LoadNodeStack;
+            _saveDirectReset.OnSaveReset += LoadNodeStack;
             _stylisationManager.OnNodeStackStyleChange += GenerateNodeStackVisualsRelay;
             _nodeStackEditor.OnNodeStackLayoutEdited += GenerateNodeStackVisualsRelay;
 
@@ -67,9 +57,9 @@ namespace NodeStackSystem
         #region OnDisable Functions
         private void OnDisable()
         {
-            _saveLoader.OnSaveLoadedSuccesfully -= context => LoadNodeStack(context);
-            _saveDirectLoader.OnSaveLoadedSuccesfully -= context => LoadNodeStack(context);
-            _saveDirectReset.OnSaveReset -= context => LoadNodeStack(context);
+            _saveLoader.OnSaveLoadedSuccesfully -= LoadNodeStack;
+            _saveDirectLoader.OnSaveLoadedSuccesfully -= LoadNodeStack;
+            _saveDirectReset.OnSaveReset -= LoadNodeStack;
             _stylisationManager.OnNodeStackStyleChange -= GenerateNodeStackVisualsRelay;
             _nodeStackEditor.OnNodeStackLayoutEdited -= GenerateNodeStackVisualsRelay;
         }
@@ -85,6 +75,7 @@ namespace NodeStackSystem
             LoadLayoutRelay(data);
             GenerateNodeStackVisualsRelay();
         }
+
         private void LoadLayoutRelay(NodeStackData data) => _nodeStackLayoutHolder.LoadLayout(data);
 
         private void LoadStyleRelay(NodeStackData data) => _nodeStackStyleHolder.LoadStyle(data);

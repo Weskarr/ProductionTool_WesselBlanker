@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 
-public class SaveAndLoadTab : MonoBehaviour
+public class SaveAndLoadTab : MonoBehaviour, ITab
 {
     [Header("Tab Toggling")]
     [SerializeField] private RectTransform _tabTransform;

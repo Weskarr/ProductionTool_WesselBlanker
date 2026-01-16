@@ -11,8 +11,8 @@ public class UINode : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _labelText;
 
     // Layout Reference
-    private Transform _layoutNodeTransform;
-    private LayoutNodeData _layoutNodeData;
+    [SerializeField] private Transform _layoutNodeTransform;
+    [SerializeField] private LayoutNodeData _layoutNodeData;
 
 
     // ----------------- Functions -----------------

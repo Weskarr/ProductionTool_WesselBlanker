@@ -76,9 +76,9 @@ namespace NodeStackSystem
             if (_visualContent.childCount == 0)
                 return;
 
-            foreach (Transform child in _visualContent)
+            for (int i = _visualContent.childCount - 1; i >= 0; i--)
             {
-                Destroy(child.gameObject);
+                DestroyImmediate(_visualContent.GetChild(i).gameObject);
             }
         }
 

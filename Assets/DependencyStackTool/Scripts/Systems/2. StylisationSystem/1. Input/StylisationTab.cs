@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class StylisationTab : MonoBehaviour
+public class StylisationTab : MonoBehaviour, ITab
 {
     [Header("Tab Toggling")]
     [SerializeField] private RectTransform _tabTransform;

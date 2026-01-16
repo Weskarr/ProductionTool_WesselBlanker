@@ -15,7 +15,7 @@ namespace NodeStackSystem
         [SerializeField] private GameObject _layoutNodePrefab;
 
         // Currents
-        [SerializeField] private Transform _currentRootLayoutNode;
+        //[SerializeField] private Transform _currentRootLayoutNode;
 
 
         // ----------------- Functions -----------------
@@ -25,8 +25,13 @@ namespace NodeStackSystem
         
         public Transform CurrentRootLayoutNode
         {
-            get => _currentRootLayoutNode;
-            set => _currentRootLayoutNode = value;
+            get
+            {
+                if (_layoutNodeContainer != null && _layoutNodeContainer.childCount > 0)
+                    return _layoutNodeContainer.GetChild(0);
+
+                return null;
+            }
         }
 
         public Transform LayoutNodeContainer
@@ -62,8 +67,10 @@ namespace NodeStackSystem
                         LayoutNodeDataHolder holder = nodeObj.GetComponent<LayoutNodeDataHolder>();
                         holder.LayoutNodeData = data.NodeLayoutDataArray[_currentIndex];
                         nodeObj.name = holder.LayoutNodeData.name;
-                        if (_currentIndex == 0)
-                            _currentRootLayoutNode = nodeObj.transform;
+                        //if (_currentIndex == 0)
+                        //{
+                           // CurrentRootLayoutNode = nodeObj.transform;
+                        //}
                         _currentIndex++;
                         break;
 
@@ -85,11 +92,11 @@ namespace NodeStackSystem
 
         public LayoutNodeData[] CreateLayoutNodeDataArray()
         {
-            if (_currentRootLayoutNode == null)
+            if (CurrentRootLayoutNode == null)
                 return null;
 
             List<LayoutNodeData> list = new();
-            CollectLayoutNodeDataRecursive(_currentRootLayoutNode, list);
+            CollectLayoutNodeDataRecursive(CurrentRootLayoutNode, list);
 
             // assign sequential IDs
             //for (int i = 0; i < list.Count; i++)
@@ -100,10 +107,10 @@ namespace NodeStackSystem
 
         public string CreateLayoutNodeDataOrder()
         {
-            if (_currentRootLayoutNode == null)
+            if (CurrentRootLayoutNode == null)
                 return null;
 
-            return SerializeNodeDataRecursive(_currentRootLayoutNode);
+            return SerializeNodeDataRecursive(CurrentRootLayoutNode);
         }
 
         #endregion
@@ -115,10 +122,9 @@ namespace NodeStackSystem
             if (_layoutNodeContainer.childCount == 0)
                 return;
 
-            _currentRootLayoutNode = null;
-            foreach (Transform child in _layoutNodeContainer)
+            for (int i = _layoutNodeContainer.childCount - 1; i >= 0; i--)
             {
-                Destroy(child.gameObject);
+                DestroyImmediate(_layoutNodeContainer.GetChild(i).gameObject);
             }
         }
 

@@ -19,8 +19,8 @@ public class FilePathHandler : MonoBehaviour
     public static FilePathHandler Instance { get; private set; }
 
     // Avaliable Paths
-    private string _baseFolderPath;
-    private string _savesFolderPath;
+    [SerializeField] private string _baseFolderPath;
+    [SerializeField] private string _savesFolderPath;
     //private string _exportsFolderPath;
 
 
@@ -41,6 +41,12 @@ public class FilePathHandler : MonoBehaviour
     private void Awake()
     {
         Singleton();
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+        SetupBaseFolder();
+        _savesFolderPath = SetupFolder(_savesFolderName);
+        //_exportsFolderPath = SetupFolder(_exportsFolderName);
+#endif
     }
 
     private void Singleton()
@@ -61,15 +67,6 @@ public class FilePathHandler : MonoBehaviour
 
     #region OnEnable Functions
 
-    private void OnEnable()
-    {
-        #if !UNITY_WEBGL
-            SetupBaseFolder();
-            _savesFolderPath = SetupFolder(_savesFolderName);
-            //_exportsFolderPath = SetupFolder(_exportsFolderName);
-        #endif
-    }
-
     private void SetupBaseFolder()
     {
 #if UNITY_EDITOR
@@ -89,15 +86,6 @@ public class FilePathHandler : MonoBehaviour
             Directory.CreateDirectory(folder);
 
         return folder;
-    }
-
-    #endregion
-
-    #region OnDisable Functions
-
-    private void OnDisable()
-    {
-        
     }
 
     #endregion

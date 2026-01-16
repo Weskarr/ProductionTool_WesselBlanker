@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PreferencesTab : MonoBehaviour
+public class PreferencesTab : MonoBehaviour, ITab
 {
     [Header("Tab Toggling")]
     [SerializeField] private RectTransform _tabTransform;
